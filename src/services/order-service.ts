@@ -37,9 +37,8 @@ export const orderService = {
             });
 
             return await order.save();
-        } catch (error) {
-            console.error("Error creating order:", error.message);
-            throw error;
+        } catch (e) {
+            next(e);
         }
     },
 
@@ -81,3 +80,7 @@ export const orderService = {
 
 
 };
+function next(error: any) {
+    throw new Error("Function not implemented.");
+}
+

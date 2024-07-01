@@ -33,7 +33,14 @@ export type IUserInput = {
 export type IUser = IUserInput & {
   createdAt: Date;
   isAdmin: boolean;
-  cart: string[];
+  cart: ICartProduct[];
+};
+
+export type ICartProduct = {
+  productId: string;
+  title: string;
+  price: number;
+ 
 };
 
 export type ILogin = {
@@ -59,7 +66,7 @@ export type IProduct = IProductInput & {
   _id: string;
   barcode: number;
   createdAt: Date;
-  shoppingCart: string[];
+  /* shoppingCart: string[]; */
   quantity: number;
   sold: number;
   userId: string;

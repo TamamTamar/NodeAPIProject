@@ -5,6 +5,7 @@ import { isBusiness } from "../middleware/is-business";
 import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
+import BizCardsError from "../errors/BizCardsError";
 
 
 const router = Router();
@@ -71,7 +72,7 @@ router.get("/", async (req, res, next) => {
 //get product by id
 router.get("/:id", isProductId, async (req, res, next) => {
   try {
-    const product = await productService.getProduct(req.params.id);
+    const product = await productService.getProductById(req.params.id);
     res.json(product);
   } catch (e) {
     next(e);
@@ -79,20 +80,33 @@ router.get("/:id", isProductId, async (req, res, next) => {
 });
 
 //toggle shopping cart
-router.patch("/:id/shopping-cart", validateToken, isProductId, async (req, res, next) => {
+
+router.patch("/:id/shopping-cart", validateToken, async (req, res, next) => {
   try {
     const userId = req.payload._id;
     const productId = req.params.id;
-    const user = await productService.toggleShoppingCart(userId, productId);
-    res.json(user);
+    const cart = await productService.toggleShoppingCart(userId, productId);
+    res.json(cart);
+  } catch (e) {
+    next(e);
+  }
+});
+
+//get shopping cart
+router.get("/shopping-cart/all", validateToken, async (req, res, next) => {
+  try {
+    const userId = req.payload._id;
+    const products = await productService.getShoppingCart(userId);
+    res.json(products);
   } catch (e) {
     next(e);
   }
 });
 
 
+
 //get shopping cart by user id
-router.get("/shopping-cart/:userId", validateToken, async (req, res, next) => {
+ router.get("/shopping-cart/:userId", validateToken, async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const products = await productService.getShoppingCart(userId);
@@ -100,6 +114,6 @@ router.get("/shopping-cart/:userId", validateToken, async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-});
+}); 
 
 export { router as productRouter };

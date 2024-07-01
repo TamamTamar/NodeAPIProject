@@ -6,7 +6,7 @@ import User from "../db/models/user-model";
 
 export const analyticsService = {
 
-
+//get inventory
     getInventory: async () => {
         const products = await Product.find();
         return products.map(product => ({
@@ -15,7 +15,7 @@ export const analyticsService = {
             sold: product.sold,
         }));
     },
-
+//get all orders
         getAllOrders: async () => {
             const orders = await Order.find().populate({
                 path: 'userId',
@@ -37,6 +37,7 @@ export const analyticsService = {
             }));
         },
 
+        //get sales by date
     getSalesByDate: async (startDate: Date, endDate: Date) => {
 
         if (!startDate || !endDate) {
@@ -47,7 +48,7 @@ export const analyticsService = {
             throw new BizCardsError(400, "End date cannot be earlier than start date");
         }
 
-        // הוספת יום אחד לתאריך הסיום כדי לכלול את כל היום הנוכחי
+        //
         const adjustedEndDate = new Date(endDate);
         adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
 

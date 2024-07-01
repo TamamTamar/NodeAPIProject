@@ -5,6 +5,7 @@ import { Logger } from "../logs/logger";
 import User from "../db/models/user-model";
 import BizCardsError from "../errors/BizCardsError";
 
+//generate random barcode
 const generateBarcodeNumber = async () => {
   //generate random bizNumber:
   while (true) {
@@ -15,7 +16,7 @@ const generateBarcodeNumber = async () => {
     }
   }
 };
-
+//create product
 export const productService = {
   createProduct: async (data: IProductInput, userId: string) => {
     //userId is extracted from the JWT
@@ -26,11 +27,15 @@ export const productService = {
     return product.save();
   },
 
+  //get all products
   getProducts: async () => Product.find(),
 
-  getProduct: async (id: string) => Product.findById(id),
-
+  //get product by id
+/*   getProduct: async (id: string) => Product.findById(id),
+ */
+  //get product by user id
   getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
+
 
   getProductById: async (id: string) => Product.findById(id),
 
@@ -42,17 +47,28 @@ export const productService = {
     const product = await Product.findById(productId);
     if (!product) throw new BizCardsError(404, "Product not found");
   
-    const productTitle = product.title;
-    const isInCart = user.cart.includes(productTitle);
-    if (isInCart) {
-      user.cart = user.cart.filter(title => title !== productTitle);
+    // Ensure that productId is a string before comparison
+    const productIdStr = productId.toString();
+  
+    // Find the product in the cart, checking if productId exists and is a string
+    const productInCart = user.cart.find(item => item.productId?.toString() === productIdStr);
+  
+    if (productInCart) {
+      // Remove the product from the cart
+      user.cart = user.cart.filter(item => item.productId?.toString() !== productIdStr);
     } else {
-      user.cart.push(productTitle);
+      // Add the product to the cart, ensuring all necessary properties are included
+      user.cart.push({
+        productId: product._id,
+        title: product.title,
+        price: product.price,
+      });
     }
   
     await user.save();
-    return user;
+    return user.cart;
   },
+  
 
   
   
@@ -73,9 +89,10 @@ export const productService = {
     if (user) {
       return user.cart;
     } else {
-      throw new BizCardsError(400,"User not found");
+      throw new BizCardsError(400, "User not found");
+    }
   }
-  }
+  
 };
 
 

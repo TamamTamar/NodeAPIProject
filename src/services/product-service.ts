@@ -37,18 +37,25 @@ export const productService = {
 
   toggleShoppingCart: async (userId: string, productId: string) => {
     const user = await User.findById(userId);
+    if (!user) throw new BizCardsError(404, "User not found");
+  
     const product = await Product.findById(productId);
-
-
-    const isFavorite = user.cart.includes(productId);
-    if (isFavorite) {
-      user.cart = user.cart.filter(fav => fav.toString() !== userId);
+    if (!product) throw new BizCardsError(404, "Product not found");
+  
+    const productTitle = product.title;
+    const isInCart = user.cart.includes(productTitle);
+    if (isInCart) {
+      user.cart = user.cart.filter(title => title !== productTitle);
     } else {
-      user.cart.push(productId);
+      user.cart.push(productTitle);
     }
+  
     await user.save();
-    return user.cart;
+    return user;
   },
+
+  
+  
 
   updateProduct: async (id: string, data: IProductInput, userId: string) => {
     const product = await Product.findOneAndUpdate({ _id: id, userId: userId }, data, { new: true });
@@ -59,12 +66,14 @@ export const productService = {
     const product = await Product.findOneAndDelete({ _id: id, $or: [{ userId: userId }, { isAdmin: true }] });
     return product;
   },
+
+  //get shopping cart by user id
   getShoppingCart: async (userId: string) => {
     const user = await User.findById(userId);
     if (user) {
       return user.cart;
     } else {
-      throw new BizCardsError(404, "User not found");
+      throw new BizCardsError(400,"User not found");
   }
   }
 };

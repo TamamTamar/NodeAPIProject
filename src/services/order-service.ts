@@ -38,7 +38,7 @@ export const orderService = {
 
             return await order.save();
         } catch (e) {
-            next(e);
+            throw e;
         }
     },
 
@@ -76,11 +76,4 @@ export const orderService = {
     getOrdersByUser: async (userId: string) => {
         return Order.find({ userId }).populate("products.productId");
     },
-
-
-
 };
-function next(error: any) {
-    throw new Error("Function not implemented.");
-}
-

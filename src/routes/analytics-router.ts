@@ -124,7 +124,7 @@ router.get("/products/top-selling", ...isAdmin, async (req, res, next) => {
         next(e);
     }
 });
-
+//get users with most orders
 router.get("/active-users", ...isAdmin, async (req, res, next) => {
     try {
         const usersByOrdersCount = await analyticsService.getUsersWithMostOrders();

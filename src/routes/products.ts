@@ -5,7 +5,7 @@ import { isBusiness } from "../middleware/is-business";
 import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
-import BizCardsError from "../errors/BizCardsError";
+
 
 
 const router = Router();
@@ -103,17 +103,5 @@ router.get("/shopping-cart/all", validateToken, async (req, res, next) => {
   }
 });
 
-
-
-//get shopping cart by user id
- router.get("/shopping-cart/:userId", validateToken, async (req, res, next) => {
-  try {
-    const userId = req.params.userId;
-    const products = await productService.getShoppingCart(userId);
-    res.json(products);
-  } catch (e) {
-    next(e);
-  }
-}); 
 
 export { router as productRouter };

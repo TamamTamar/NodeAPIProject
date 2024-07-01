@@ -66,7 +66,6 @@ export type IProduct = IProductInput & {
   _id: string;
   barcode: number;
   createdAt: Date;
-  /* shoppingCart: string[]; */
   quantity: number;
   sold: number;
   userId: string;

@@ -11,7 +11,6 @@ const productSchema = new Schema<IProduct>({
   
   image: { type: imageSchema, required: true },
 
-  shoppingCart: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   quantity: { type: Number, required: true }, 
   sold: { type: Number, default: 0 },  
 

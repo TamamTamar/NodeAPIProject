@@ -25,7 +25,20 @@ export const analyticsService = {
 
             console.log(orders); // Add this line to log the orders data
 
-            return orders;
+            return orders.map(order => ({
+                orderId: order._id,
+                userId: order.userId._id,
+                products: order.products.map(product => ({
+                    productId: product.productId._id,
+                    title: product.title,
+                    barcode: product.barcode,
+                    quantity: product.quantity,
+                    price: product.price,
+                })),
+                totalAmount: order.totalAmount,
+                status: order.status,
+                createdAt: order.createdAt,
+            }));
         },
 
         //get sales by date
@@ -90,10 +103,6 @@ export const analyticsService = {
         };
     },
 
-   /*  getTotalSold: async () => {
-        const products = await Product.find();
-        return products.reduce((acc, product) => acc + product.sold, 0);
-    }, */
 
     getTopSellingProducts: async () => {
         const products = await Product.find().sort({ sold: -1 }).limit(5);

@@ -12,7 +12,7 @@ const isOrder: RequestHandler = async (req, _, next) => {
         }
 
         if (order.status !== "cancelled") {
-            return next(order);
+            return next();
         } else {
             return next(new BizCardsError(400, "Order is cancelled"));
         }

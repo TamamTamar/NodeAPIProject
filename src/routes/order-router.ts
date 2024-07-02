@@ -6,6 +6,7 @@ import { isAdminOrSelfUser } from "../middleware/is-admin-or-self-user";
 import isOrder from "../middleware/Is-order";
 
 
+
 const router = Router();
 
 
@@ -24,18 +25,15 @@ router.post("/", validateToken, async (req, res, next) => {
 
 
 //get order by id
-router.get("/:orderId",isOrder, ...isAdmin, async (req, res, next) => {
-
-
+router.get("/:orderId", isAdminOrSelfUser, isOrder, async (req, res, next) => {
     try {
-        const orderId = req.params.id;
+        const orderId = req.params.orderId;
         const order = await orderService.getOrder(orderId);
-        console.log(order)
         res.json(order);
     } catch (e) {
         next(e);
     }
-});
+})
 
 //get orders by user
 router.get("/user/:userId", isAdminOrSelfUser, async (req, res, next) => {

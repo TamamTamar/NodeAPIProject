@@ -74,15 +74,6 @@ router.get("/inventory",  ...isAdmin, async (req, res, next) => {
     }
 });
 
-/* router.get("/total-sold", ...isAdmin, async (req, res, next) => {
-    try {
-        const totalSold = await analyticsService.getTotalSold();
-        res.json({ totalSold });
-    } catch (e) {
-        next(e);
-    }
-}); */
-
 //get product sales by id
 router.get("/product-sales/:id", ...isAdmin, isProductId, async (req, res, next) => {
     try {
@@ -104,11 +95,12 @@ router.get("/order-status", ...isAdmin, async (req, res, next) => {
     }
 });
 //update order status
-router.patch("/status/:orderId", ...isAdmin, isStatus, async (req, res, next) => {
+router.patch("/status/:orderId", ...isAdmin,isStatus, async (req, res, next) => {
+   
     try {
         const orderId = req.params.orderId;
         const { status } = req.body;
-
+    
         const updatedOrder = await analyticsService.updateOrderStatus(orderId, status);
         res.json(updatedOrder);
     } catch (e) {

@@ -3,12 +3,12 @@ const users = [
     isAdmin: true,
     cart : [],
     name: {
-      first: "TomerBu",
+      first: "Tamar",
       middle: "",
-      last: "Bu",
+      last: "Tamam",
     },
     phone: "0507123012",
-    email: "tomerbu@gmail.com",
+    email: "TamarTamam@gmail.com",
     password: "Abc!123Abc",
     address: {
       state: "IL",
@@ -48,7 +48,7 @@ const users = [
       last: "Cohen",
     },
     phone: "050-9123012",
-    email: "rtytuj@gmail.com",
+    email: "yosi@gmail.com",
     password: "Abc!123Abc",
     address: {
       state: "IL",
@@ -65,7 +65,7 @@ const users = [
 ];
 const products = [
   {
-    title: "a wonderful new card",
+    title: "product 1",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
     price: 111,
@@ -78,7 +78,7 @@ const products = [
   },
 
   {
-    title: "a wonderful new card vs2",
+    title: "product 2",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
     price: 222,
@@ -91,7 +91,7 @@ const products = [
   },
 
   {
-    title: "a wonderful new card vs3",
+    title: "product 3",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
     price: 333,

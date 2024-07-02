@@ -6,6 +6,7 @@ import { authService } from "./auth-service";
 export const usersService = {
  //update user
   updateUser: async (id: string, data: IUserInput) => {
+    data.password = await authService.hashPassword(data.password);
     const user = await User.findByIdAndUpdate(id, data, { new: true });
     return user;
 

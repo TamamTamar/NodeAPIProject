@@ -36,10 +36,10 @@ export const productService = {
   //get product by user id
   getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
 
-
+//get product by id
   getProductById: async (id: string) => Product.findById(id),
 
-
+//toggle shopping cart
   toggleShoppingCart: async (userId: string, productId: string) => {
     const user = await User.findById(userId);  
     const product = await Product.findById(productId);

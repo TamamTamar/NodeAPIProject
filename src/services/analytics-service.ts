@@ -20,21 +20,12 @@ export const analyticsService = {
             const orders = await Order.find().populate({
                 path: 'userId',
                 select: 'name', // אכלוס השדה name מתוך userId
+
             }).populate('products.productId');
-            return orders.map(order => ({
-                orderId: order._id,
-                userId: order.userId._id,
-                products: order.products.map(product => ({
-                    productId: product.productId._id,
-                    title: product.title,
-                    barcode: product.barcode,
-                    quantity: product.quantity,
-                    price: product.price,
-                })),
-                totalAmount: order.totalAmount,
-                status: order.status,
-                createdAt: order.createdAt,
-            }));
+
+            console.log(orders); // Add this line to log the orders data
+
+            return orders;
         },
 
         //get sales by date

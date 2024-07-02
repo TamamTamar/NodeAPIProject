@@ -12,12 +12,10 @@ const router = Router();
 
 
 //delete product
-router.delete("/:id", ...isAdmin,isProductId, async (req, res, next) => {
+router.delete("/:id", ...isAdmin, isProductId, async (req, res, next) => {
   try {
-    const userId = req.payload._id;
     const productId = req.params.id;
-
-    const deletedProduct = await productService.deleteProduct(productId, userId);
+    const deletedProduct = await productService.deleteProduct(productId);
     res.json({ message: "Product deleted successfully", product: deletedProduct });
   } catch (e) {
     next(e);
@@ -81,7 +79,7 @@ router.get("/:id", isProductId, async (req, res, next) => {
 
 //toggle shopping cart
 
-router.patch("/:id/shopping-cart", validateToken, async (req, res, next) => {
+router.patch("/:id/shopping-cart", validateToken,isProductId, async (req, res, next) => {
   try {
     const userId = req.payload._id;
     const productId = req.params.id;

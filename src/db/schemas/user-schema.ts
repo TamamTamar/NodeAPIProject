@@ -27,7 +27,6 @@ const userSchema = new Schema<IUser>({
     productId: { type: Schema.Types.ObjectId, ref: 'Product' },
     title: { type: String },
     price: { type: Number },
-    size: { type: String }
   }],
 });
 

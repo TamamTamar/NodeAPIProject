@@ -7,7 +7,7 @@ const _isSelf: RequestHandler = (req, res, next) => {
     return next();
   }
 
-  next(new BizCardsError(403, "Only the card owner is allowed"));
+  next(new BizCardsError(403, "Only the user is allowed"));
 };
 
 export const isSelf = [validateToken, _isSelf];

@@ -4,13 +4,14 @@ import BizCardsError from "../errors/BizCardsError";
 import { authService } from "./auth-service";
 
 export const usersService = {
-  updateUser: async (data: IUserInput, id: string) => {
-    data.password = await authService.hashPassword(data.password);
-    
-    
-    return User.findOneAndUpdate({ _id: id }, data, {new: true});
+ //update user
+  updateUser: async (id: string, data: IUserInput) => {
+    const user = await User.findByIdAndUpdate(id, data, { new: true });
+    return user;
+
   },
 
+  //create user
   createUser: async (data: IUserInput) => {
     const user = new User(data);
     //replace the password with it's hash
@@ -19,6 +20,7 @@ export const usersService = {
     return user.save();
   },
 
+  //login
   loginUser: async ({ email, password }: ILogin) => {
     const user = await User.findOne({ email });
 
@@ -40,13 +42,15 @@ export const usersService = {
     };
     return authService.generateJWT(payload);
   },
+  //get all users
   getAllUsers: async () => User.find({}, { password: 0 }),
 
   getUserById: async (id: string) => User.findById(id, { password: 0 }),
 
   deleteUser: async (id: string) => {
     const user = await User.findByIdAndDelete(id);
-    if (!user) throw new Error("User not found");
+    if (!user)
+      throw new BizCardsError(404, "User not found");
     return user;
   },
 };

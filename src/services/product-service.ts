@@ -41,11 +41,8 @@ export const productService = {
 
 
   toggleShoppingCart: async (userId: string, productId: string) => {
-    const user = await User.findById(userId);
-    if (!user) throw new BizCardsError(404, "User not found");
-  
+    const user = await User.findById(userId);  
     const product = await Product.findById(productId);
-    if (!product) throw new BizCardsError(404, "Product not found");
   
     // Ensure that productId is a string before comparison
     const productIdStr = productId.toString();
@@ -78,8 +75,8 @@ export const productService = {
     return product;
   },
 
-  deleteProduct: async (id: string, userId: string) => {
-    const product = await Product.findOneAndDelete({ _id: id, $or: [{ userId: userId }, { isAdmin: true }] });
+  deleteProduct: async (id: string) => {
+    const product = await Product.findByIdAndDelete(id);
     return product;
   },
 

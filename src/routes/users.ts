@@ -7,15 +7,21 @@ import { isSelf } from "../middleware/is-self";
 
 const router = Router();
 
-router.put("/:id", ...isSelf, validateUser, async (req, res, next) => {
+//update user
+router.put("/:id", ...isAdminOrSelf, async (req, res, next) => {
   try {
-    const saved = await usersService.updateUser(req.body, req.payload._id);
-    res.json(saved);
+    const userId = req.params.id;
+    const userData = req.body;
+    const updatedUser = await usersService.updateUser(userId, userData);
+    res.json({ message: "User updated successfully", user: updatedUser });
   } catch (e) {
     next(e);
   }
-});
+})
 
+
+
+//get user by id
 router.get("/:id", ...isAdminOrSelf, async (req, res, next) => {
   try {
     const user = await usersService.getUserById(req.params.id);
@@ -25,6 +31,7 @@ router.get("/:id", ...isAdminOrSelf, async (req, res, next) => {
   }
 });
 
+//get all users
 router.get("/", ...isAdmin, async (req, res, next) => {
   try {
     const users = await usersService.getAllUsers();
@@ -34,6 +41,7 @@ router.get("/", ...isAdmin, async (req, res, next) => {
   }
 });
 
+//login
 router.post("/login", validateLogin, async (req, res, next) => {
   try {
     const jwt = await usersService.loginUser(req.body);
@@ -43,6 +51,7 @@ router.post("/login", validateLogin, async (req, res, next) => {
   }
 });
 
+//create user
 router.post("/", validateUser, async (req, res, next) => {
   try {
     const result = await usersService.createUser(req.body);
@@ -54,6 +63,7 @@ router.post("/", validateUser, async (req, res, next) => {
   }
 });
 
+//delete user
 router.delete("/:id", isAdminOrSelf, async (req, res, next) => {
   try {
     const userId = req.params.id;

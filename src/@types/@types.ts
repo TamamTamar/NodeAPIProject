@@ -60,6 +60,7 @@ export type IProductInput = {
   description: string;
   price: number;
   image: IImage;
+  quantity: number;
 };
 
 export type IProduct = IProductInput & {

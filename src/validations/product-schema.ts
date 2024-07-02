@@ -7,7 +7,7 @@ const productSchema = Joi.object<IProductInput>({
   title: Joi.string().min(2).max(256).required(),
   subtitle: Joi.string().min(2).max(256).required(),
   description: Joi.string().min(2).max(1024).required(),
-  price: Joi.number().min(1).max(11).required(),
+  price: Joi.number().min(1).max(10000).required(),
   image: imageSchema,
 });
 

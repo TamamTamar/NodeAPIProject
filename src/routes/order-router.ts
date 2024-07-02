@@ -25,10 +25,11 @@ router.post("/", validateToken, async (req, res, next) => {
 
 
 //get order by id
-router.get("/:orderId", ...isAdmin, async (req, res, next) => {
+router.get("/:orderId",isOrder, ...isAdmin, async (req, res, next) => {
+
 
     try {
-        const orderId = req.params.id;
+        const orderId = req.params.orderId;
         const order = await orderService.getOrder(orderId);
         console.log(order)
         res.json(order);

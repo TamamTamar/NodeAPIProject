@@ -73,8 +73,8 @@ export const productService = {
   
   
 
-  updateProduct: async (id: string, data: IProductInput, userId: string) => {
-    const product = await Product.findOneAndUpdate({ _id: id, userId: userId }, data, { new: true });
+  updateProduct: async (id: string, data: IProductInput) => {
+    const product = await Product.findOneAndUpdate({ _id: id}, data, { new: true });
     return product;
   },
 
